@@ -13,7 +13,6 @@ namespace Lisa.BlueJay.Data.Entities
         public int Id { get; set; }
 
         [Required]
-        public int ProfileId { get; set; }
         public virtual Profile Profile { get; set; }
 
         public virtual ICollection<User> Parents { get; set; }
