@@ -38,8 +38,6 @@ namespace ZumaKeuzesContrast2
 		MainMenu mainMenu;
 		//UIInterfaceOrientation toInterfaceOrientation;
 
-		// test git on test branch sparrow
-
 		private string blackout, soundSelect, screenPositionHighDifficulty, FilterRotation;
 		private int count;
 		private object scFirst, scSecond;
