@@ -13,7 +13,16 @@ namespace ZumaKeuzesContrast2
 	partial class MainMenu
 	{
 		[Outlet]
+		MonoTouch.UIKit.UIButton btnAdd { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIButton btnGo { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnSubtract { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel LblTimer { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UISegmentedControl scChoice { get; set; }
@@ -36,6 +45,21 @@ namespace ZumaKeuzesContrast2
 			if (scSingleChoiceOptions != null) {
 				scSingleChoiceOptions.Dispose ();
 				scSingleChoiceOptions = null;
+			}
+
+			if (btnAdd != null) {
+				btnAdd.Dispose ();
+				btnAdd = null;
+			}
+
+			if (btnSubtract != null) {
+				btnSubtract.Dispose ();
+				btnSubtract = null;
+			}
+
+			if (LblTimer != null) {
+				LblTimer.Dispose ();
+				LblTimer = null;
 			}
 		}
 	}

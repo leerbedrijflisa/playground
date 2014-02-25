@@ -31,20 +31,32 @@ namespace ZumaKeuzesContrast2
 		{
 			base.ViewDidLoad ();
 
-			// Zuma Keuzes version 1.1
-			// database concept in progress!
-
-
 			//Create's a db if there isn't one already with a table to handle the Menu segement button options
 			Create_Zuma_DB();
+
+			btnAdd.SetImage (UIImage.FromFile ("AddBTN.png"), UIControlState.Normal);
+			btnSubtract.SetImage (UIImage.FromFile ("SubtractBTN.png"), UIControlState.Normal);
+
+			int Timer = 5;
+
+			LblTimer.Text = Timer.ToString();
+
+			btnAdd.TouchUpInside += (sender, e) => {
+				Timer ++;
+				LblTimer.Text = Timer.ToString();
+			};
+
+			btnSubtract.TouchUpInside += (sender, e) => {
+				Timer --;
+				LblTimer.Text = Timer.ToString();
+			};
 
 			btnGo.TouchUpInside += (sender, e) => {
 
 				int segmetDifficultyLevel = scChoice.SelectedSegment;
 				int segmetType = scSingleChoiceOptions.SelectedSegment;
-
-				enter_scValue(segmetDifficultyLevel, segmetType);
-
+	
+				enter_scValue(segmetDifficultyLevel, segmetType, Timer);
 				if(viewController == null)
 				{
 					viewController = new MainViewController4();
@@ -67,7 +79,7 @@ namespace ZumaKeuzesContrast2
 				conn.Open ();
 				using (var cmd = conn.CreateCommand ()) {
 
-					cmd.CommandText = "CREATE TABLE MenuOptions (MenuOptionsID INTEGER PRIMARY KEY AUTOINCREMENT, scFirst INTEGER, scSecond INTEGER)";
+					cmd.CommandText = "CREATE TABLE MenuOptions (MenuOptionsID INTEGER PRIMARY KEY AUTOINCREMENT, scFirst INTEGER, scSecond INTEGER, Timer INTERGER)";
 					cmd.CommandType = CommandType.Text;
 					cmd.ExecuteNonQuery ();
 				}
@@ -75,10 +87,11 @@ namespace ZumaKeuzesContrast2
 			}
 		}
 
-		public void enter_scValue(int scFirst, int scSecond)
+		public void enter_scValue(int scFirst, int scSecond, int Timer)
 		{
 			var varScFirst = scFirst;
 			var varScSecond = scSecond;
+			var varTimer = Timer;
 
 			var documents = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 			var pathToDatebase = Path.Combine (documents, "db_Zuma_Keuzes.db");
@@ -91,27 +104,13 @@ namespace ZumaKeuzesContrast2
 
 				using (var cmd = conn.CreateCommand ()) {
 
-					cmd.CommandText = "INSERT INTO MenuOptions (scFirst, scSecond) VALUES (@First, @Second)";
+					cmd.CommandText = "INSERT INTO MenuOptions (scFirst, scSecond, Timer) VALUES (@First, @Second, @Timer)";
 					cmd.Parameters.AddWithValue ("@First", varScFirst);
 					cmd.Parameters.AddWithValue ("@Second", varScSecond);
-					//cmd.CommandType = CommandType.Text;
+					cmd.Parameters.AddWithValue ("@Timer", varTimer);
 					cmd.ExecuteNonQuery ();
 
 				}
-
-
-//				string stm = "SELECT * FROM MenuOptions";
-//
-//				using (SqliteCommand cmd = new SqliteCommand(stm, conn))
-//				{
-//					using (SqliteDataReader rdr = cmd.ExecuteReader())
-//					{
-//						while (rdr.Read()) {
-//							Console.WriteLine (rdr["MenuOptionsID"] + " " + rdr["scType"]);
-//						}
-//					}
-//
-//				}
 
 
 			}

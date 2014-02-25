@@ -36,11 +36,10 @@ namespace ZumaKeuzesContrast2
 		NSTimer SwitchingChoices, blackOutTimer;
 		Sound IChooseLeft = new Sound(), IChooseRight = new Sound();
 		MainMenu mainMenu;
-		//UIInterfaceOrientation toInterfaceOrientation;
 
 		private string blackout, soundSelect, screenPositionHighDifficulty, FilterRotation;
-		private int count;
-		private object scFirst, scSecond;
+		private int count, TimerSetting;
+		private object scFirst, scSecond, Timer;
 		private bool pushed = true, playingLeft = true, playingRight = true;
 
 		public override void ViewDidLoad ()
@@ -54,8 +53,10 @@ namespace ZumaKeuzesContrast2
 
 			ScreenReturnToMenu ();
 
-			//reads out the value of the scOption
+			//reads out the value of the scOption and TimerSettings
 			Read_Zuma_DB ();
+
+			TimerSetting = Convert.ToInt32 (Timer);
 
 			//Select and create UIImages.
 			selectLeftImage ();
@@ -100,17 +101,17 @@ namespace ZumaKeuzesContrast2
 					btnChoice.Enabled = false;
 					if(count == 0) {
 					
-						blackOutTimer = NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(5), delegate {
+						blackOutTimer = NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(TimerSetting), delegate {
 							blackOutLowDifficulty();
-							NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(5), resetbtnForLowDifficulty);
+							NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(TimerSetting), resetbtnForLowDifficulty);
 						
 						});
 
 					} else if(count == 1) {
 
-						blackOutTimer = NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(5), delegate {
+						blackOutTimer = NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(TimerSetting), delegate {
 							blackOutPart();
-							NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(5), resetbtnForLowDifficulty);
+							NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(TimerSetting), resetbtnForLowDifficulty);
 
 						});
 					}
@@ -130,9 +131,9 @@ namespace ZumaKeuzesContrast2
 
 						Console.WriteLine("left btn");
 
-						blackOutTimer = NSTimer.CreateScheduledTimer (TimeSpan.FromSeconds (5), delegate {
+					blackOutTimer = NSTimer.CreateScheduledTimer (TimeSpan.FromSeconds (TimerSetting), delegate {
 							blackOutLowDifficulty ();
-							NSTimer.CreateScheduledTimer (TimeSpan.FromSeconds (5), resetbtnForHighDifficulty);
+						NSTimer.CreateScheduledTimer (TimeSpan.FromSeconds (TimerSetting), resetbtnForHighDifficulty);
 						});
 				};
 
@@ -146,9 +147,9 @@ namespace ZumaKeuzesContrast2
 
 						Console.WriteLine("right btn");
 
-						blackOutTimer = NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(5), delegate {
+					blackOutTimer = NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(TimerSetting), delegate {
 							blackOutLowDifficulty();
-							NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(5), resetbtnForHighDifficulty);
+						NSTimer.CreateScheduledTimer(TimeSpan.FromSeconds(TimerSetting), resetbtnForHighDifficulty);
 						});
 				};
 			}
@@ -319,7 +320,6 @@ namespace ZumaKeuzesContrast2
 			if(scSecond.ToString() == "0")
 			{
 				rightImage = UIImage.FromFile ("RightArrow2.png");
-				//rightImage = UIImage.FromFile ("No.jpg");
 			}
 			else if(scSecond.ToString() == "1")
 			{
@@ -385,6 +385,8 @@ namespace ZumaKeuzesContrast2
 						while (rdr.Read()) {
 							scFirst = rdr ["scFirst"];
 							scSecond = rdr["scSecond"];
+							Timer = rdr ["Timer"];
+
 						}
 					}
 

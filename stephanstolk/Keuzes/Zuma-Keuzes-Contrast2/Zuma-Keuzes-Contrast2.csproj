@@ -145,5 +145,9 @@
     <BundleResource Include="Resources\LeftArrow2.png" />
     <BundleResource Include="Resources\RightArrow2.png" />
     <BundleResource Include="Resources\Right.mp3" />
+    <BundleResource Include="Resources\AddBTN.png" />
+    <BundleResource Include="Resources\SubtractBTN.png" />
+    <BundleResource Include="Resources\AddBTN2.png" />
+    <BundleResource Include="Resources\SubtractBTN2.png" />
   </ItemGroup>
 </Project>
