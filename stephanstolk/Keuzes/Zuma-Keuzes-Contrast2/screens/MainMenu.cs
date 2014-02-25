@@ -46,8 +46,17 @@ namespace ZumaKeuzesContrast2
 			};
 
 			btnSubtract.TouchUpInside += (sender, e) => {
-				Timer --;
-				LblTimer.Text = Timer.ToString();
+				if(Timer <= 1) 
+				{ 
+					btnSubtract.SetImage (UIImage.FromFile ("AddSubtractBTN.png"), UIControlState.Disabled);
+				} 
+				else 
+				{ 
+					btnSubtract.SetImage (UIImage.FromFile ("AddSubtractBTN.png"), UIControlState.Disabled);
+					Timer --;
+					LblTimer.Text = Timer.ToString();
+				}
+
 			};
 
 			btnGo.TouchUpInside += (sender, e) => {
